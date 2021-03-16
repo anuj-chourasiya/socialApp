@@ -25,18 +25,26 @@ SECRET_KEY = 'bd&p4(-r8)j)8&^qo!ik06%2tgw#q^4dufg15pe)qzk&c$@ij9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.l','localhost','192.168.43.30','8f346e52fad0.ngrok.io']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
+    'images.apps.ImagesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'social_django',
+    
+
+
+    
 ]
 
 MIDDLEWARE = [
@@ -118,3 +126,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL	=	'dashboard'
+LOGIN_URL	=	'login'
+LOGOUT_URL	=	'logout'
+
+EMAIL_BACKEND	=	'django.core.mail.backends.console.EmailBackend'
+
+import os
+MEDIA_URL	=	'/media/'
+MEDIA_ROOT	=	os.path.join(BASE_DIR,	'media/')
+
+AUTHENTICATION_BACKENDS	=	[
+	'django.contrib.auth.backends.ModelBackend',
+	'account.authentication.EmailAuthBackend',
+   
+
+
+]
