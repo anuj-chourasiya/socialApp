@@ -1,7 +1,7 @@
 (function(){
 	var	jquery_version	=	'3.3.1';
-	var	site_url	=	'https://8f346e52fad0.ngrok.io/';
-	var	static_url	=	site_url	+	'static/';
+	var	site_url	=	'https://0ab06a629489.ngrok.io/';
+	var	static_url	=	site_url + 'static/';
 	var	min_width	=	100;
 	var	min_height	=	100;
 
@@ -24,7 +24,7 @@ Math.floor(Math.random()*99999999999999999999)
 	jQuery('#bookmarklet').remove();
 		});
 
-	//	find	images	and	display	them
+	//	find images	and	display	them
 jQuery.each(jQuery('img[src$="jpg"]'),	function(index,	image)	{
 	if	(jQuery(image).width()	>=	min_width	&&	jQuery(image).height()	
 	>=	min_height)

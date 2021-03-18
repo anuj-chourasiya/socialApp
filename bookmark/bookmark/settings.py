@@ -25,7 +25,7 @@ SECRET_KEY = 'bd&p4(-r8)j)8&^qo!ik06%2tgw#q^4dufg15pe)qzk&c$@ij9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.l','localhost','192.168.43.30','8f346e52fad0.ngrok.io']
+ALLOWED_HOSTS = ['127.0.0.l','localhost','192.168.43.30','0ab06a629489.ngrok.io']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'social_django',
+    'actions.apps.ActionsConfig',
     
 
 
@@ -140,7 +141,10 @@ MEDIA_ROOT	=	os.path.join(BASE_DIR,	'media/')
 AUTHENTICATION_BACKENDS	=	[
 	'django.contrib.auth.backends.ModelBackend',
 	'account.authentication.EmailAuthBackend',
-   
+   ]
 
-
-]
+from	django.urls	import	reverse_lazy
+ABSOLUTE_URL_OVERRIDES	=	{
+	'auth.user':	lambda	u:	reverse_lazy('user_detail',
+	args=[u.username])
+}
