@@ -25,7 +25,7 @@ SECRET_KEY = 'bd&p4(-r8)j)8&^qo!ik06%2tgw#q^4dufg15pe)qzk&c$@ij9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.l','localhost','192.168.43.30','0ab06a629489.ngrok.io']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -82,12 +83,19 @@ WSGI_APPLICATION = 'bookmark.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+import os
+if 'DATABASE_URL' in os.environ:
+    import dj_database_url
+    DATABASES = {'default': dj_database_url.config(conn_max_age=600, ssl_require=False)}
+else:
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+
 
 
 # Password validation
@@ -126,7 +134,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 LOGIN_REDIRECT_URL	=	'dashboard'
 LOGIN_URL	=	'login'
@@ -134,7 +145,7 @@ LOGOUT_URL	=	'logout'
 
 EMAIL_BACKEND	=	'django.core.mail.backends.console.EmailBackend'
 
-import os
+
 MEDIA_URL	=	'/media/'
 MEDIA_ROOT	=	os.path.join(BASE_DIR,	'media/')
 
@@ -148,3 +159,5 @@ ABSOLUTE_URL_OVERRIDES	=	{
 	'auth.user':	lambda	u:	reverse_lazy('user_detail',
 	args=[u.username])
 }
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
